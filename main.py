@@ -275,8 +275,8 @@ class Engine:
             self.current_line = 0
 
 
-def start(width, height):
-    engine = Engine(width, height)
+def start():
+    engine = Engine(int(init_code[0]), int(init_code[1]))
 
     running = True
 
@@ -305,71 +305,9 @@ def start(width, height):
 
     pygame.display.quit()
 
-def take_code(code):
-    if len(code) == 0:
-        print("Code is empty.")
-        return
-    print("Code:")
-    for code_block in code:
-        print(" ", code_block)
-
 if __name__ == '__main__':
-    init_code = []
-    loop_code = []
-    while True:
-        command = list(input().split())
-        if command[0] == 'start':
-            with open("code\\init.txt", "r", encoding="utf-8") as file:
-                init_code = file.read().splitlines()
-            with open("code\\loop.txt", "r", encoding="utf-8") as file:
-                loop_code = file.read().splitlines()
-            print("Launching the game window.")
-            start(int(command[1]), int(command[2]))
-        elif command[0] == 'init_code':
-            with open("code\\init.txt", "r", encoding="utf-8") as file:
-                init_code = file.read().splitlines()
-            print("Init code entry started.")
-            code = input()
-            while code != "end_code":
-                if code == "my_code":
-                    take_code(init_code)
-                elif code == "clear_code":
-                    print("Code cleared.")
-                    init_code.clear()
-                elif code == "deleted_line":
-                    print("Enter the line number (starting from 0).")
-                    index = int(input())
-                    init_code.pop(index)
-                    print("The line of code has been removed.")
-                else:
-                    print("A line of code has been added.")
-                    init_code.append(code)
-                code = input()
-            with open("code\\init.txt", "w", encoding="utf-8") as file:
-                file.write("\n".join(init_code))
-            print("Code entry complete.")
-        elif command[0] == 'loop_code':
-            with open("code\\loop.txt", "r", encoding="utf-8") as file:
-                loop_code = file.read().splitlines()
-            print("Loop code entry started.")
-            code = input()
-            while code != "end_code":
-                if code == "my_code":
-                    take_code(loop_code)
-                elif code == "clear_code":
-                    print("Code cleared.")
-                    loop_code.clear()
-                elif code == "deleted_line":
-                    print("Enter the line number (starting from 0).")
-                    index = int(input())
-                    loop_code.pop(index)
-                    print("The line of code has been removed.")
-                else:
-                    print("A line of code has been added.")
-                    loop_code.append(code)
-                code = input()
-            with open("code\\loop.txt", "w", encoding="utf-8") as file:
-                file.write("\n".join(loop_code))
-            print("Code entry complete.")
-        else:
-            print(f"Unknown command: {command}")
+    with open("code\\init.txt", "r", encoding="utf-8") as file:
+        init_code = file.read().splitlines()
+    with open("code\\loop.txt", "r", encoding="utf-8") as file:
+        loop_code = file.read().splitlines()
+    start()
