@@ -8,6 +8,9 @@ class Engine:
         pygame.init()
 
         self.screen = pygame.display.set_mode((width, height))
+        pygame.display.set_caption("Micro Text Engine (MTE) | Идет игра...")
+        icon_image = pygame.image.load("icon.png")  # Укажи путь к своей .png картинке
+        pygame.display.set_icon(icon_image)
         self.clock = pygame.time.Clock()
         self.game_objects = {}
         self.text = {}
