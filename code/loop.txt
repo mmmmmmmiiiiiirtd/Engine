@@ -5,6 +5,7 @@ if time < 30000:
         move("player", 5, 0)
     if key_pressed('space'):
         if not exists_box("bool"):
+            print("shoot")
             play_sound("assets\\shoot.mp3")
             creat_box("bool", get_x("player") + 25, get_y("player") - 25, 10, 25, "yellow", "static")
         else:
@@ -28,7 +29,7 @@ if time < 30000:
 if time >= 30000:
     if not exists_text("result"):
         play_sound("assets\\win.mp3")
-        creat_text("result", f"Ваш результат: {result}.", 100, 100, 30, "white")
+        creat_text("result", f"Ваш результат: {result}.", 100, 100, 40, "red")
     elif exists_text("result"):
         wait(200)
         deleted_text("result")
