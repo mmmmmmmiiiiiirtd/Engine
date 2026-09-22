@@ -29,9 +29,5 @@ if time >= 30000:
     if not exists_text("result"):
         play_sound("assets\\win.mp3")
         creat_text("result", f"Ваш результат: {result}.", 100, 100, 30, "white")
-    elif exists_text("result"):
-        wait(200)
-        deleted_text("result")
-        wait(200)
     if key_pressed('space'):
         restart()
