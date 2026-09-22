@@ -46,6 +46,7 @@ class Engine:
             "check_collision": self.check_collision,
             "restart": self.restart,
             "play_sound": self.play_sound,
+            "deleted_text": self.deleted_text,
             "time": 0
         }
 
@@ -87,6 +88,9 @@ class Engine:
 
     def deleted_box(self, name):
         self.game_objects.pop(name)
+
+    def deleted_text(self, name):
+        self.text.pop(name)
 
     def exists_box(self, name):
         if name in self.game_objects:
@@ -225,6 +229,28 @@ class Engine:
                 if token.startswith("if "):
                     condition = token.replace("if ", "")
 
+                    if eval(condition, self.context, self.context):
+                        self.if_stack = [x for x in self.if_stack if x[0] < current_indent]
+                        self.if_stack.append((current_indent, True))
+                        self.current_line += 1
+                    else:
+                        self.if_stack = [x for x in self.if_stack if x[0] < current_indent]
+                        self.if_stack.append((current_indent, False))
+                        self.current_line += 1
+
+                        while self.current_line < len(raw_lines):
+                            next_line = raw_lines[self.current_line]
+                            if not next_line.strip() or next_line.strip().startswith("#"):
+                                self.current_line += 1
+                                continue
+                            if get_indent(next_line) > current_indent:
+                                self.current_line += 1
+                            else:
+                                break
+                    continue
+
+                elif token.startswith("elif "):
+                    condition = token.replace("elif ", "")
                     if eval(condition, self.context, self.context):
                         self.if_stack = [x for x in self.if_stack if x[0] < current_indent]
                         self.if_stack.append((current_indent, True))
