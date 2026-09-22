@@ -146,16 +146,18 @@ class Engine:
                 if other_name != name and other_box["body_type"] == "static":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         self.game_objects[name]["rect"].x -= x
-                else:
-                    other_box["rect"].x += x
+                elif other_name != name:
+                    if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
+                        other_box["rect"].x += x
 
             self.game_objects[name]["rect"].y += y
             for other_name, other_box in self.game_objects.items():
                 if other_name != name and other_box["body_type"] == "static":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         self.game_objects[name]["rect"].y -= y
-                else:
-                    other_box["rect"].y += y
+                elif other_name != name:
+                    if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
+                        other_box["rect"].y += y
 
     def move_to(self, name, x, y):
         self.game_objects[name]["rect"].x = x
