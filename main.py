@@ -21,6 +21,7 @@ class Engine:
         self.if_was_true = False
         self.if_stack = []
         self.sounds = {}
+        self.images = {}
         self.just_restarted = False
         self.sleep_until = 0
         self.start_time = pygame.time.get_ticks()
@@ -50,6 +51,9 @@ class Engine:
             "time": 0
         }
 
+    def load_image_cached(self, path):
+        self.images[path] = pygame.image.load(path).convert_alpha()
+
     def play_sound(self, path):
         if path not in self.sounds:
             self.sounds[path] = pygame.mixer.Sound(path)
@@ -77,7 +81,7 @@ class Engine:
     def random_range(self, min, max):
         return random.randint(min, max)
 
-    def creat_box(self, name, x, y, width, height, color="white", type="static"):
+    def creat_box(self, name, x, y, width, height, color="white", type="static", path=None):
         actual_color = pygame.Color(color) if isinstance(color, str) else color
         box = {
             "rect": pygame.Rect(x, y, width, height),
@@ -85,6 +89,11 @@ class Engine:
             "body_type": type
         }
         self.game_objects[name] = box
+
+        if not path is None:
+            if path in self.images:
+                self.load_image_cached(path)
+            self.game_objects[name]["image_path"] = path
 
     def deleted_box(self, name):
         self.game_objects.pop(name)
@@ -336,13 +345,13 @@ def start():
 
         engine.run_loop(loop_code)
 
+        for box in engine.game_objects.values():
+            pygame.draw.rect(engine.screen, box["color"], box["rect"])
+
         for text in engine.text.values():
             font = pygame.font.SysFont(None, text["size"])
             text_surface = font.render(text["message"], True, text["color"])
             engine.screen.blit(text_surface, (text["x"], text["y"]))
-
-        for box in engine.game_objects.values():
-            pygame.draw.rect(engine.screen, box["color"], box["rect"])
 
         pygame.display.flip()
 
