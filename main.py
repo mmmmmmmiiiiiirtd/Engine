@@ -51,8 +51,8 @@ class Engine:
             "time": 0
         }
 
-    def load_image_cached(self, path):
-        self.images[path] = pygame.image.load(path).convert_alpha()
+    def load_image_cached(self, path, name):
+        self.images[path] = pygame.transform.scale(pygame.image.load(path).convert_alpha(), (self.game_objects[name]["rect"].width, self.game_objects[name]["rect"].height))
 
     def play_sound(self, path):
         if path not in self.sounds:
@@ -91,9 +91,9 @@ class Engine:
         self.game_objects[name] = box
 
         if not path is None:
-            if path in self.images:
-                self.load_image_cached(path)
-            self.game_objects[name]["image_path"] = path
+            if not path in self.images:
+                self.load_image_cached(path, name)
+            self.game_objects[name]["image"] = self.images[path]
 
     def deleted_box(self, name):
         self.game_objects.pop(name)
@@ -346,7 +346,10 @@ def start():
         engine.run_loop(loop_code)
 
         for box in engine.game_objects.values():
-            pygame.draw.rect(engine.screen, box["color"], box["rect"])
+            if ("image" in box):
+                engine.screen.blit(box["image"], box["rect"])
+            else:
+                pygame.draw.rect(engine.screen, box["color"], box["rect"])
 
         for text in engine.text.values():
             font = pygame.font.SysFont(None, text["size"])
