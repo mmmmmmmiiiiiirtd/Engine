@@ -155,7 +155,7 @@ class Engine:
                 if other_name != name and other_box["body_type"] == "static":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         self.game_objects[name]["rect"].x -= x
-                elif other_name != name:
+                elif other_name != name and other_box["body_type"] == "dynamic":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         other_box["rect"].x += x
                         for wall_name, wall_box in self.game_objects.items():
@@ -169,7 +169,7 @@ class Engine:
                 if other_name != name and other_box["body_type"] == "static":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         self.game_objects[name]["rect"].y -= y
-                elif other_name != name:
+                elif other_name != name and other_box["body_type"] == "dynamic":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         other_box["rect"].y += y
                         for wall_name, wall_box in self.game_objects.items():
