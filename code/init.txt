@@ -4,6 +4,5 @@ creat_box("aim", 0, 0, 50, 50, "red", "static")
 creat_box("player", 225, 225, 50, 50, "green", "dynamic", "assets\\images.png")
 creat_box("wall1", 0, 0, 1, 500, "red", "static")
 creat_box("wall2", 499, 0, 1, 500, "red", "static")
-creat_box("wall3", 200, 200, 5, 500, "red", "fantom")
 result = 0
 fl = True
