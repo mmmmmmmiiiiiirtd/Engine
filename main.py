@@ -74,7 +74,7 @@ class Engine:
 
     def check_collision(self, name1, name2):
         if name1 in self.game_objects and name2 in self.game_objects:
-            return self.game_objects[name1]["rect"].colliderect(self.game_objects[name2]["rect"])
+            return self.game_objects[name1]["rect"].inflate(2, 2).colliderect(self.game_objects[name2]["rect"])
         else:
             return False
 
@@ -149,7 +149,7 @@ class Engine:
                 if other_name != name and other_box["body_type"] == "dynamic":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         other_box["rect"].y += y
-        else:
+        elif self.game_objects[name]["body_type"] == "dynamic":
             self.game_objects[name]["rect"].x += x
             for other_name, other_box in self.game_objects.items():
                 if other_name != name and other_box["body_type"] == "static":
@@ -177,6 +177,9 @@ class Engine:
                                 if other_box["rect"].colliderect(wall_box["rect"]):
                                     other_box["rect"].y -= y
                                     self.game_objects[name]["rect"].y -= y
+        else:
+            self.game_objects[name]["rect"].x += x
+            self.game_objects[name]["rect"].y += y
 
     def move_to(self, name, x, y):
         self.game_objects[name]["rect"].x = x

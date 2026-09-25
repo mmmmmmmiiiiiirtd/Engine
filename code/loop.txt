@@ -1,33 +1,13 @@
-if time < 30000:
-    if key_pressed('a'):
-        move("player", -5, 0)
-    if key_pressed('d'):
-        move("player", 5, 0)
-    if key_pressed('space'):
-        if not exists_box("bool"):
-            play_sound("assets\\shoot.mp3")
-            creat_box("bool", get_x("player") + 25, get_y("player") - 25, 10, 25, "yellow", "static")
-        else:
-            if get_y("bool") <= 0:
-                deleted_box("bool")
-    if exists_box("bool"):
-        move("bool", 0, -15)
-    if exists_box("bool"):
-        if check_collision("bool", "aim"):
-            result += 1
-            deleted_box("bool")
-    if get_x("aim") == 0:
-        fl = True
-    if get_x("aim") == 450:
-        fl = False
-    if fl:
-        move("aim", 5, 0)
+print(fl)
+if fl:
+    if jamp + 350 < time:
+        move("player", 0, 5)
     else:
-        move("aim", -5, 0)
-    
-if time >= 30000:
-    if not exists_text("result"):
-        play_sound("assets\\win.mp3")
-        creat_text("result", f"Ваш результат: {result}.", 100, 100, 30, "white")
-    if key_pressed('space'):
-        restart()
+        move("player", 0, -5)
+    if key_pressed("space") and jamp + 700 < time:
+        jamp = time
+    if spawn + 1000 < time:
+        creat_box("obj" + str(o), 550, 500, 50, 50, "red", "static")
+        o += 1
+        spawn = time
+    moving()

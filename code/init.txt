@@ -1,8 +1,17 @@
-500
-500
-creat_box("aim", 0, 0, 50, 50, "red", "static")
-creat_box("player", 225, 225, 50, 50, "green", "dynamic", "assets\\images.png")
-creat_box("wall1", 0, 0, 1, 500, "red", "static")
-creat_box("wall2", 499, 0, 1, 500, "red", "static")
-result = 0
+600
+600
+creat_box("player", 50, 375, 50, 50, "green", "dynamic")
+creat_box("platform", 0, 550, 600, 25, "blue", "static")
+jamp = -350
+spawn = -1000
+o = 0
 fl = True
+
+def moving():
+    global fl
+    for i in range(o):
+        move("obj" + str(i), -8, 0)
+        if check_collision("player", "obj" + str(i)):
+            fl = False
+            print(fl)
+            creat_text("text", "Вы проиграли", 100, 300, 30, "red")
