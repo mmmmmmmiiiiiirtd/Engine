@@ -1,4 +1,3 @@
-print(fl)
 if fl:
     if jamp + 350 < time:
         move("player", 0, 5)
@@ -7,7 +6,7 @@ if fl:
     if key_pressed("space") and jamp + 700 < time:
         jamp = time
     if spawn + 1000 < time:
-        creat_box("obj" + str(o), 550, 500, 50, 50, "red", "static")
+        create_box("obj" + str(o), 550, 500, 50, 50, "red", "dynamic")
         o += 1
         spawn = time
     moving()

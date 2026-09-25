@@ -1,7 +1,7 @@
 600
 600
-creat_box("player", 50, 375, 50, 50, "green", "dynamic")
-creat_box("platform", 0, 550, 600, 25, "blue", "static")
+create_box("player", 49, 375, 50, 50, "green", "dynamic")
+create_box("platform", 0, 550, 600, 25, "blue", "static")
 jamp = -350
 spawn = -1000
 o = 0
@@ -13,5 +13,4 @@ def moving():
         move("obj" + str(i), -8, 0)
         if check_collision("player", "obj" + str(i)):
             fl = False
-            print(fl)
-            creat_text("text", "Вы проиграли", 100, 300, 30, "red")
+            create_text("text", "Вы проиграли", 100, 300, 30, "red")

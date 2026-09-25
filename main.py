@@ -27,10 +27,10 @@ class Engine:
         self.start_time = pygame.time.get_ticks()
 
         self.context = {
-            "creat_box": self.creat_box,
+            "create_box": self.create_box,
             "move": self.move,
             "wait": self.wait,
-            "deleted_box": self.deleted_box,
+            "delete_box": self.delete_box,
             "exists_box": self.exists_box,
             "key_pressed": self.key_pressed,
             "change_color": self.change_color,
@@ -43,7 +43,7 @@ class Engine:
             "change_size": self.change_size,
             "change_size_to": self.change_size_to,
             "exists_text": self.exists_text,
-            "creat_text": self.creat_text,
+            "create_text": self.create_text,
             "check_collision": self.check_collision,
             "restart": self.restart,
             "play_sound": self.play_sound,
@@ -81,7 +81,7 @@ class Engine:
     def random_range(self, min, max):
         return random.randint(min, max)
 
-    def creat_box(self, name, x, y, width, height, color="white", type="static", path=None):
+    def create_box(self, name, x, y, width, height, color="white", type="static", path=None):
         actual_color = pygame.Color(color) if isinstance(color, str) else color
         box = {
             "rect": pygame.Rect(x, y, width, height),
@@ -95,7 +95,7 @@ class Engine:
                 self.load_image_cached(path, name)
             self.game_objects[name]["image"] = self.images[path]
 
-    def deleted_box(self, name):
+    def delete_box(self, name):
         self.game_objects.pop(name)
 
     def deleted_text(self, name):
@@ -119,7 +119,7 @@ class Engine:
     def get_height(self, name):
         return self.game_objects[name]["rect"].height
 
-    def creat_text(self, name, message, x, y, size=30, color="white"):
+    def create_text(self, name, message, x, y, size=30, color="white"):
         actual_color = pygame.Color(color) if isinstance(color, str) else color
 
         self.text[name] = {
@@ -149,6 +149,7 @@ class Engine:
                 if other_name != name and other_box["body_type"] == "dynamic":
                     if self.game_objects[name]["rect"].colliderect(other_box["rect"]):
                         other_box["rect"].y += y
+
         elif self.game_objects[name]["body_type"] == "dynamic":
             self.game_objects[name]["rect"].x += x
             for other_name, other_box in self.game_objects.items():
@@ -176,7 +177,7 @@ class Engine:
                             if wall_name != other_name and wall_box["body_type"] == "static":
                                 if other_box["rect"].colliderect(wall_box["rect"]):
                                     other_box["rect"].y -= y
-                                    self.game_objects[name]["rect"].y -= y
+                                    self.game_objects[name]["rect"].y -= wall_box["rect"].y
         else:
             self.game_objects[name]["rect"].x += x
             self.game_objects[name]["rect"].y += y
@@ -208,7 +209,8 @@ class Engine:
         key_map = {
             'w': pygame.K_w, 'a': pygame.K_a, 's': pygame.K_s, 'd': pygame.K_d,
             'up': pygame.K_UP, 'down': pygame.K_DOWN, 'left': pygame.K_LEFT, 'right': pygame.K_RIGHT,
-            'space': pygame.K_SPACE
+            'space': pygame.K_SPACE, 'q': pygame.K_q, 'e': pygame.K_e, 'f': pygame.K_f,
+            'z': pygame.K_z, 'x': pygame.K_x, 'c': pygame.K_c, 'v': pygame.K_v
         }
 
         pygame_key = key_map.get(key_name.lower())
